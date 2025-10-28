@@ -1,0 +1,193 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #e5e7eb;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+:root {
+  --footer-h: 80px; /* alto aproximado del footer */
+
+  /* Colores */
+  --color-RedMarca: #EB0029; /* var(--color-RedMarca)*/
+  --color-stokes: #E2E8F0; /* var(--color-stokes)*/
+}
+
+
+* { box-sizing: border-box; }
+
+.app-container {
+  width: 100%;
+  padding-top: 18px;
+  max-width: 100%;
+  background-color: #f9fafb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative; /* necesario para el footer */
+  padding-bottom: 90px; /* deja espacio al footer */
+  min-height: 100vh;       /* fallback */
+  min-height: 100dvh;      /* viewport dinámico en móviles */
+  padding-bottom: var(--footer-h); /* espacio para que el contenido no quede oculto */
+}
+
+/* Header */
+.app-header {
+  background: transparent; /* ya no barra roja completa */
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn-back {
+  width: 40px; height: 40px; border-radius: 10px; border: none;
+  background: var(--color-RedMarca); color: #fff; display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 14px rgba(230,57,70,0.25);
+  cursor: pointer;
+}
+.chevron-left { font-size: 22px; line-height: 1; transform: translateX(-1px); }
+
+/* Pill de semillas */
+.seeds-pill {
+  margin-left: auto;
+  padding: 0.5rem 0.9rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #3f3f46; /* gris oscuro */
+  font-weight: 600; font-size: 0.95rem;
+  border: 1px solid var(--color-stokes); /* borde suave */
+  /* anillo/luz exterior morado-azulado */
+  box-shadow:
+    0 0 0 1px #DBDADE, /* glow */
+}
+
+/* Contenido */
+.content-area { padding: 1.5rem; }
+
+/* Tarjeta ahorro */
+.savings-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  align-items: start;
+  row-gap: 0.5rem;
+  border: 1px solid var(--color-stokes);
+}
+.savings-info h2 { margin: 0; font-size: 1.25rem; color: #4B465C; }
+.savings-info .meta { margin: 0.25rem 0 0; font-size: 0.9rem; color: #6b7280; }
+.savings-yield { text-align: right; }
+.badge-rendimiento {
+  background-color: #dcfce7;
+  color: #166534;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  display: inline-block;
+}
+.savings-yield .anual { margin: 0.25rem 0 0; font-size: 0.9rem; color: #6b7280; }
+.progress-bar { grid-column: 1 / -1; width: 100%; background-color: #e5e7eb; height: 8px; border-radius: 4px; margin-top: 1rem; overflow: hidden; }
+.progress-fill { height: 100%; background-color: var(--color-RedMarca); border-radius: 4px; }
+
+/* Planta */
+.plant-section { text-align: center; padding: 2.5rem 0; }
+.plant-image { font-size: 7rem; line-height: 1; }
+
+/* Stats */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+.stat-card { background-color: #ffffff; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); padding: 1rem 0.5rem; text-align: center; font-size: 0.9rem; border: 1px solid var(--color-stokes); }
+.stat-icon { font-size: 1.5rem; display: block; margin-bottom: 0.25rem; }
+.stat-card p { margin: 0.25rem 0; color: #374151; font-weight: 500; }
+.stat-card .stat-value { color: #6b7280; font-weight: normal; }
+.stat-card .stat-value.red { color: var(--color-RedMarca); font-weight: 600; }
+
+/* Misiones */
+.missions-section { margin-top: 1.69rem; }
+.missions-section h3 { margin: 0 0 0.5rem 0; font-size: 1.1rem; color: #4B465C; }
+.mission-list { display: flex; flex-direction: column; border-radius: 12px; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid var(--color-stokes); }
+.mission-card { display: flex; align-items: center; padding: 1rem; cursor: pointer; border-bottom: 1px solid #DBDADE; }
+.mission-card3 { border-bottom: 0; }
+.mission-icon-bg { width: 40px; height: 40px; border-radius: 8px; margin-right: 1rem; flex-shrink: 0; }
+.bg-green { background-color: #34d399; } .bg-pink { background-color: #f472b6; } .bg-orange { background-color: #fb923c; }
+.mission-details { flex-grow: 1; }
+.mission-details .mission-title { margin: 0; font-weight: 600; color: #4B465C; }
+.mission-details .mission-rewards { margin: 0.25rem 0 0; font-size: 0.9rem; color: #6b7280; }
+.mission-details .mission-rewards span { margin-right: 0.5rem; }
+.mission-arrow { font-size: 1.5rem; color: var(--color-RedMarca); font-weight: bold; }
+
+/* Footer */
+.app-footer{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+  z-index: 10;
+
+  /* padding con safe-area para iPhone */
+  padding: 1.25rem 1.5rem calc(1.25rem + env(safe-area-inset-bottom));
+}
+
+.btn-depositar{
+  width: 100%;
+  background-color: var(--color-RedMarca);
+  color: #fff;
+  border: none;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+/* --- Backdrop y Bottom Sheet (slide desde abajo) --- */
+.backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  opacity: 0; pointer-events: none; transition: opacity 200ms ease;
+  z-index: 40;
+}
+.backdrop.show { opacity: 1; pointer-events: auto; }
+
+.bottom-sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+  background: #fff; border-radius: 16px 16px 0 0;
+  padding: 1.25rem 1rem 1rem; box-shadow: 0 -6px 24px rgba(0,0,0,0.12);
+  transform: translateY(100%); transition: transform 280ms cubic-bezier(.2,.8,.2,1);
+  max-height: 78vh; overflow-y: auto;
+}
+.bottom-sheet.show { transform: translateY(0%); }
+
+.sheet-header { display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; }
+.sheet-header h3 { margin: 0; color: #111827; font-size: 1.1rem; }
+
+.field { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.9rem; }
+.field label { font-size: 0.92rem; color: #374151; }
+
+/* Select estilizado */
+.select-wrapper { position: relative; }
+.select-wrapper select {
+  width: 100%; padding: 0.9rem 2.25rem 0.9rem 0.9rem; font-size: 1rem;
+  border: 1px solid var(--color-stokes); border-radius: 10px; background: #f9fafb; color: #111827;
+  appearance: none; outline: none;
+}
+.select-wrapper .chevron {
+  position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+  pointer-events: none; color: #6b7280; font-size: 1rem;
+}
+
+/* Input monto */
+#deposit-amount-input {
+  width: 100%; padding: 0.9rem; font-size: 1rem; border: 1px solid var(--color-stokes);
+  border-radius: 10px; background: #fff; color: #111827;
+}
+#deposit-amount-input::placeholder { color: #9ca3af; }
+
+.sheet-actions { display: grid; gap: 0.75rem; margin-top: 1rem; }
+.btn-primary { background-color: var(--color-RedMarca); color: #fff; border: none; padding: 0.9rem 1rem; font-size: 1rem; font-weight: 600; border-radius: 10px; cursor: pointer; }
+.btn-primary.disabled, .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn-outline { background: transparent; color: var(--color-RedMarca); border: 2px solid #f2b5ba; padding: 0.85rem 1rem; font-size: 1rem; font-weight: 600; border-radius: 10px; cursor: pointer; }
