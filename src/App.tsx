@@ -36,7 +36,7 @@ const App: React.FC = () => {
   // Mock de cuentas (reemplaza por tu data real cuando la tengas)
   const accounts: Account[] = useMemo(
     () => [
-      { id: "acc_1", alias: "BBVA •••• 9102", last4: "9101", brand: "debit" },
+      { id: "acc_1", alias: "BBVA •••• 1234", last4: "1234", brand: "debit" },
       { id: "acc_2", alias: "Santander •••• 2234", last4: "2234", brand: "visa" },
       { id: "acc_3", alias: "HSBC •••• 7788", last4: "7788", brand: "mastercard" },
     ],
