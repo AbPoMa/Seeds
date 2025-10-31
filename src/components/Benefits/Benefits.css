@@ -1,6 +1,6 @@
 .benefits-filters{display:flex;gap:.75rem;padding:0 0 1rem;overflow:auto}
 .benefits-chip{border:1px solid var(--color-stokes);background:#fff;color:#374151;padding:.5rem .9rem;border-radius:9999px;font-weight:600;white-space:nowrap}
-.benefits-chip.is-active{border-color:#c7c9d1;box-shadow:0 0 0 2px #eef0f6 inset}
+.benefits-chip.is-active{background: var(--color-RedMarca);color: #fff;}
 .benefits-chip-icon{margin-right:.35rem}
 
 .benefits-section h3{margin:.5rem 0 1rem;font-size:1.1rem;color:#4B465C}
