@@ -1,27 +1,30 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./App.css";
+import Home from "./components/Home/Home";
+import Benefits from "./components/Benefits/Benefits";
 
-// Tipos simples para las cuentas de origen
 type Account = {
   id: string;
-  alias: string; // texto visible (banco + últimos 4)
+  alias: string;
   last4: string;
   brand?: "visa" | "mastercard" | "amex" | "debit" | "other";
   balance?: number;
 };
 
+type Tab = "home" | "benefits";
+
 const App: React.FC = () => {
-  // Estado ahorro/meta
+  // navegación
+  const [tab, setTab] = useState<Tab>("home");
+
+  // ahorro/meta
   const [saved, setSaved] = useState<number>(1000);
-  const goal: number = 5000;
+  const goal = 5000;
 
-  // Estado del Bottom Sheet (modal que sube desde abajo)
-  const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
-  const [amount, setAmount] = useState<string>("");
-  const [accountId, setAccountId] = useState<string>("");
-
-  const remaining: number = Math.max(goal - saved, 0);
-  const progress: number = Math.min((saved / goal) * 100, 100);
+  // bottom sheet (depósito)
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [amount, setAmount] = useState("");
+  const [accountId, setAccountId] = useState("");
 
   const nmx = useMemo(
     () =>
@@ -33,7 +36,6 @@ const App: React.FC = () => {
     []
   );
 
-  // Mock de cuentas (reemplaza por tu data real cuando la tengas)
   const accounts: Account[] = useMemo(
     () => [
       { id: "acc_1", alias: "BBVA •••• 1234", last4: "1234", brand: "debit" },
@@ -43,154 +45,73 @@ const App: React.FC = () => {
     []
   );
 
-  // Cierra con tecla ESC
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsSheetOpen(false);
-    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsSheetOpen(false);
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const resetSheet = () => {
+  const openSheet = () => setIsSheetOpen(true);
+  const closeSheet = () => {
+    setIsSheetOpen(false);
     setAmount("");
     setAccountId("");
   };
 
-  const openSheet = () => setIsSheetOpen(true);
-  const closeSheet = () => {
-    setIsSheetOpen(false);
-    resetSheet();
-  };
-
-  const handleConfirmDeposit = (): void => {
+  const handleConfirmDeposit = () => {
     const val = parseFloat(amount);
     if (!accountId || isNaN(val) || val <= 0) return;
     setSaved((s) => Math.min(s + val, goal));
     closeSheet();
   };
 
-  const isValid = accountId !== "" && !isNaN(parseFloat(amount)) && parseFloat(amount) > 0;
+  const isValid =
+    accountId !== "" && !isNaN(parseFloat(amount)) && parseFloat(amount) > 0;
 
   return (
     <div className="app-container">
+      {/* Header */}
       <header className="app-header">
-        <button type="button" className="btn-back" aria-label="Regresar">
+        <button
+          type="button"
+          className="btn-back"
+          aria-label="Regresar"
+          onClick={() => tab === "benefits" && setTab("home")}
+        >
           <span className="chevron-left">‹</span>
         </button>
-        <div className="seeds-pill" aria-live="polite">Tienes 245 semillas</div>
+        <div className="seeds-pill" aria-live="polite">
+          Tienes 245 semillas
+        </div>
       </header>
 
+      {/* Contenido */}
       <main className="content-area">
-        {/* Tarjeta de ahorro */}
-        <section className="savings-card">
-          <div className="savings-info">
-            <h2>Has ahorrado {nmx.format(saved)}</h2>
-            <p className="meta">
-              Meta {nmx.format(goal)} - Faltan {nmx.format(remaining)}
-            </p>
-          </div>
-          <div className="savings-yield">
-            <span className="badge-rendimiento">Rendimiento</span>
-            <p className="anual">7.5% Anual</p>
-          </div>
-          <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${progress}%` }} />
-          </div>
-        </section>
-
-        {/* Planta (emoji) */}
-        <section className="plant-section">
-          <div className="plant-image" role="img" aria-label="Planta">
-            🪴
-          </div>
-        </section>
-
-        {/* Grid de estadísticas */}
-        <section className="stats-grid">
-          <div className="stat-card">
-            <span className="stat-icon">🔥</span>
-            <p>Racha</p>
-            <p className="stat-value red">5 Días</p>
-          </div>
-          <div className="stat-card">
-            <span className="stat-icon">💧</span>
-            <p>Agua</p>
-            <p className="stat-value">10/20</p>
-          </div>
-          <div className="stat-card">
-            <span className="stat-icon">☀️</span>
-            <p>Sol</p>
-            <p className="stat-value">5/10</p>
-          </div>
-          <div className="stat-card">
-            <span className="stat-icon">🌼</span>
-            <p>Fertilizante</p>
-            <p className="stat-value">5/10</p>
-          </div>
-        </section>
-
-        {/* Misiones del día */}
-        <section className="missions-section">
-          <h3>Misiones de hoy</h3>
-          <div className="mission-list">
-            <div className="mission-card">
-              <div className="mission-icon-bg bg-green" />
-              <div className="mission-details">
-                <p className="mission-title">Deposita 10 pesos</p>
-                <p className="mission-rewards">
-                  <span>🪙 2</span>
-                  <span>💧 2</span>
-                  <span>🌼 2</span>
-                </p>
-              </div>
-              <span className="mission-arrow">&gt;</span>
-            </div>
-
-            <div className="mission-card">
-              <div className="mission-icon-bg bg-pink" />
-              <div className="mission-details">
-                <p className="mission-title">[Necesidad]</p>
-                <p className="mission-rewards">
-                  <span>🪙 2</span>
-                  <span>💧 2</span>
-                  <span>🌼 2</span>
-                </p>
-              </div>
-              <span className="mission-arrow">&gt;</span>
-            </div>
-
-            <div className="mission-card mission-card3">
-              <div className="mission-icon-bg bg-orange" />
-              <div className="mission-details">
-                <p className="mission-title">[Necesidad]</p>
-                <p className="mission-rewards">
-                  <span>🪙 2</span>
-                  <span>💧 2</span>
-                  <span>🌼 2</span>
-                </p>
-              </div>
-              <span className="mission-arrow">&gt;</span>
-            </div>
-          </div>
-        </section>
+        {tab === "home" ? (
+          <Home saved={saved} goal={goal} currency={nmx} />
+        ) : (
+          <Benefits />
+        )}
       </main>
 
-      {/* Footer con botón Depositar */}
+      {/* Footer */}
       <footer className="app-footer">
+        <button className="btn-beneficios" onClick={() => setTab("benefits")}>
+          Beneficios
+        </button>
         <button className="btn-depositar" onClick={openSheet}>
           Depositar
         </button>
       </footer>
 
-      {/* Backdrop opaco */}
+      {/* Backdrop */}
       <div
         className={`backdrop ${isSheetOpen ? "show" : ""}`}
         aria-hidden={isSheetOpen ? "false" : "true"}
         onClick={closeSheet}
       />
 
-      {/* Bottom Sheet que sube desde abajo */}
+      {/* Bottom Sheet */}
       <section
         role="dialog"
         aria-modal="true"
@@ -223,7 +144,9 @@ const App: React.FC = () => {
         </div>
 
         <div className="field">
-          <label htmlFor="deposit-amount-input">¿Cuánto quieres depositar?</label>
+          <label htmlFor="deposit-amount-input">
+            ¿Cuánto quieres depositar?
+          </label>
           <input
             type="number"
             id="deposit-amount-input"
@@ -232,7 +155,7 @@ const App: React.FC = () => {
             step="0.01"
             inputMode="decimal"
             value={amount}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(e.target.value)}
+            onChange={(e) => setAmount(e.target.value)}
           />
         </div>
 
